@@ -52,10 +52,10 @@ processed_date = FOREACH date_format {
         day_short_letter = CASE day_short_letter
                 WHEN 'Mon' THEN 'Lun'
                 WHEN 'Tue' THEN 'Mar'
-                WHEN 'Wed' THEN 'Mié'
+                WHEN 'Wed' THEN 'Mie'
                 WHEN 'Thu' THEN 'Jue'
                 WHEN 'Fri' THEN 'Vie'
-                WHEN 'Sat' THEN 'Sáb'
+                WHEN 'Sat' THEN 'Sab'
                 WHEN 'Sun' THEN 'Dom'
                 ELSE day_short_letter
         END;
@@ -64,10 +64,10 @@ processed_date = FOREACH date_format {
         day_long_letter = CASE day_long_letter
                 WHEN 'Monday' THEN 'Lunes'
                 WHEN 'Tuesday' THEN 'Martes'
-                WHEN 'Wednesday' THEN 'Miércoles'
+                WHEN 'Wednesday' THEN 'Miercoles'
                 WHEN 'Thursday' THEN 'Jueves'
                 WHEN 'Friday' THEN 'Viernes'
-                WHEN 'Saturday' THEN 'Sábado'
+                WHEN 'Saturday' THEN 'Sabado'
                 WHEN 'Sunday' THEN 'Domingo'
                 ELSE day_long_letter
         END;

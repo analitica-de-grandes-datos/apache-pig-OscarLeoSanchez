@@ -47,6 +47,21 @@ processed_data = FOREACH dates {
     month_number_short = ToString(date_format, 'M');
 --     day = GetDay(ToDate(date, 'yyyy-MM-dd'));
 --     month = ToMonth(date, 'yyyy-MM-dd', 'GMT')
+    month_name = CASE month_name
+        WHEN 'Jan' THEN 'ene'
+        WHEN 'Feb' THEN 'feb'
+        WHEN 'Mar' THEN 'mar'
+        WHEN 'Apr' THEN 'abr'
+        WHEN 'May' THEN 'may'
+        WHEN 'Jun' THEN 'jun'
+        WHEN 'Jul' THEN 'jul'
+        WHEN 'Aug' THEN 'ago'
+        WHEN 'Sep' THEN 'sep'
+        WHEN 'Oct' THEN 'oct'
+        WHEN 'Nov' THEN 'nov'
+        WHEN 'Dec' THEN 'dic'
+        ELSE month_name
+    END;
 
 
     -- Genera la salida requerida
