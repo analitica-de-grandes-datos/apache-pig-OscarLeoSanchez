@@ -73,10 +73,9 @@ processed_date = FOREACH date_format {
         END;
 
         
-
-        GENERATE ToString(date, 'yyyy-MM-dd'), day_number, day_short_num, day_short_letter, day_long_letter;
+        GENERATE ToString(date, 'yyyy-MM-dd'), day_number, day_short_num, LOWER(day_short_letter), LOWER(day_long_letter);
 }
 
-
+STORE processed_date INTO 'output' USING PigStorage(',');
 
 DUMP processed_date;

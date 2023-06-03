@@ -50,7 +50,7 @@ processed_data = FOREACH dates {
 
 
     -- Genera la salida requerida
-    GENERATE date, month_name AS month_short, month_number AS month_numeric, month_number_short;
+    GENERATE date, LOWER(month_name), month_number, month_number_short;
 }
 STORE processed_data INTO 'output' USING PigStorage(',');
 
