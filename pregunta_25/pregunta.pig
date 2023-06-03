@@ -19,4 +19,11 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = LOAD 'data.csv' USING PigStorage(',') AS (item:INT, firstname:CHARARRAY, lastname:CHARARRAY, date:CHARARRAY,color:CHARARRAY, num:INT);
+name = FOREACH data GENERATE firstname AS firstname;
+sub_name = FOREACH name GENERATE FLATTEN(SUBSTRING(firstname, 0, INDEXOF(firstname, 'a'))) AS sub;
 
+result = FOREACH sub_name GENERATE (sub IS NULL ? -1 : SIZE(sub));
+STORE result INTO 'output' USING PigStorage(',');
+
+DUMP result;

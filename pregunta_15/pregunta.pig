@@ -19,4 +19,10 @@ evaluación, pig sera eejcutado ejecutado en modo local:
 $ pig -x local -f pregunta.pig
 
 */
+data = LOAD 'data.csv' USING PigStorage(',') AS (item:INT, firstname:CHARARRAY, lastname:CHARARRAY, date:CHARARRAY,color:CHARARRAY, num:INT);
+firstname_color = FOREACH data GENERATE firstname, color;
+filter_fname_color = FILTER firstname_color BY (color MATCHES 'blue') AND (firstname MATCHES '^[Z].*');
+filters_condition = FOREACH filter_fname_color GENERATE CONCAT(firstname, ' ', color);
+STORE filters_condition INTO 'output' USING PigStorage(',');
+DUMP filters_condition;
 

@@ -27,3 +27,8 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+data = LOAD 'data.csv' USING PigStorage(',') AS (item:INT, name:CHARARRAY, lastname:CHARARRAY, date:CHARARRAY,color:CHARARRAY, num:INT);
+only_lastname = FOREACH data GENERATE lastname;
+filter_lastname = FILTER only_lastname BY (lastname MATCHES '^[D-K].*');
+STORE filter_lastname INTO 'output' USING PigStorage(',');
+DUMP filter_lastname;
