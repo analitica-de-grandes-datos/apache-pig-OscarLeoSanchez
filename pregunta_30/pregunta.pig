@@ -33,4 +33,49 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+-- REGISTER /opt/pig/lib/piggybank.jar;
+-- DEFINE GetWeekday org.apache.pig.piggybank.evaluation.datetime.GetWeekday();
 
+
+data = LOAD 'data.csv' USING PigStorage(',') AS (item:INT, firstname:CHARARRAY, lastname:CHARARRAY, date:CHARARRAY,color:CHARARRAY, num:INT);
+-- dates = FOREACH data GENERATE date;
+date_format = FOREACH data GENERATE ToDate(date,'yyyy-MM-dd') AS date;
+-- data = FOREACH data GENERATE ToString(date,'yyyy-MM-dd'), GetDay(date), ToString(date, 'EE');
+-- DUMP data;
+processed_date = FOREACH date_format {
+        -- date_format = ToDate(date, 'yyyy-MM-dd', 'GMT');
+        day_number = ToString(date, 'dd');
+        day_short_num = ToString(date, 'd');
+        day_short_letter = ToString(date, 'EEE');
+        day_long_letter = ToString(date, 'EEEE');
+
+        day_short_letter = CASE day_short_letter
+                WHEN 'Mon' THEN 'Lun'
+                WHEN 'Tue' THEN 'Mar'
+                WHEN 'Wed' THEN 'Mie'
+                WHEN 'Thu' THEN 'Jue'
+                WHEN 'Fri' THEN 'Vie'
+                WHEN 'Sat' THEN 'Sab'
+                WHEN 'Sun' THEN 'Dom'
+                ELSE day_short_letter
+        END;
+
+        -- Traduce el nombre completo del día de la semana al español
+        day_long_letter = CASE day_long_letter
+                WHEN 'Monday' THEN 'Lunes'
+                WHEN 'Tuesday' THEN 'Martes'
+                WHEN 'Wednesday' THEN 'Miercoles'
+                WHEN 'Thursday' THEN 'Jueves'
+                WHEN 'Friday' THEN 'Viernes'
+                WHEN 'Saturday' THEN 'Sabado'
+                WHEN 'Sunday' THEN 'Domingo'
+                ELSE day_long_letter
+        END;
+
+        
+        GENERATE ToString(date, 'yyyy-MM-dd'), day_number, day_short_num, LOWER(day_short_letter), LOWER(day_long_letter);
+}
+
+STORE processed_date INTO 'output' USING PigStorage(',');
+
+DUMP processed_date;

@@ -20,3 +20,10 @@ $ pig -x local -f pregunta.pig
 */
 
 
+data = LOAD 'data.csv' USING PigStorage(',') AS (item:INT, firstname:CHARARRAY, lastname:CHARARRAY, date:CHARARRAY,color:CHARARRAY, num:INT);
+-- filter_data = FILTER data BY date MATCHES '....-..-..';
+birthday = FOREACH data GENERATE date as date;
+result = FOREACH birthday GENERATE FLATTEN(STRSPLIT(date, '-')) ;
+month =  FOREACH result GENERATE $1;
+STORE month INTO 'output' USING PigStorage(',');
+DUMP month;
